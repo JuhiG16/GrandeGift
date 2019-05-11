@@ -18,7 +18,7 @@ namespace GrandeGift
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-
+            //test
             services.AddDbContext<GrandeHamperDbContext>();
             services.AddScoped<IDataServices<Customer>, DataServices<Customer>>();
             IdentityBuilder iBuilder = services.AddIdentity<User, Role>(
