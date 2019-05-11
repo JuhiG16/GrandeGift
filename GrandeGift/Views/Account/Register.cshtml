@@ -1,0 +1,54 @@
+﻿@model RegisterViewModel;
+
+<form asp-controller="Account" asp-action="Register" method="post">
+    <div class="form-group">
+        <input asp-for="FirstName" placeholder="First Name" class="form-control" />
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input asp-for="LastName" placeholder="Last Name" class="form-control" />
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input asp-for="Email" placeholder="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input asp-for="Phone" placeholder="Phone" class="form-control" />
+        <span asp-validation-for="Phone" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="date" asp-for="DOB" placeholder="Date of birth" class="form-control" />
+        <span asp-validation-for="DOB" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input asp-for="Address" placeholder="Address" class="form-control" />
+        <span asp-validation-for="Address" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input asp-for="Username" placeholder="UserName" class="form-control" />
+        <span asp-validation-for="Username" class="text-danger"></span>
+        <span class="text-danger">@ViewBag.errorMessage</span>
+    </div>
+    <div class="form-group">
+        <input type="password" asp-for="Password" placeholder="Password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input asp-for="ConfirmPassword" placeholder=" Confirm Password" class="form-control" />
+        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+    </div>
+   
+    <div class="form-group">
+        <select asp-for="Role">
+            <option value="Admin">Admin</option>
+            <option value="Customer">Customer</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <button class="btn btn-primary" type="submit">Register</button>
+    </div>
+</form>
+
+
+
