@@ -7,5 +7,8 @@ namespace GrandeGift.ViewModels
 {
     public class AdminDetailsViewModel
     {
+        public int Id { get; set; }
+        public string Status { get; set; }
+        public UserViewModel User { get; set; }
     }
 }

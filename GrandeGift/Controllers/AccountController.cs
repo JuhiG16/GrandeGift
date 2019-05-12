@@ -28,8 +28,9 @@ namespace GrandeGift.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Login(string ReturnUrl = null)
         {
+            ViewData["ReturnUrl"] = ReturnUrl;
             return View();
         }
 
@@ -37,25 +38,26 @@ namespace GrandeGift.Controllers
         public async Task<IActionResult> Login(LoginViewModel vmLogin)
         {
             Microsoft.AspNetCore.Identity.SignInResult result =  await _signInManagerServices.PasswordSignInAsync(vmLogin.UserName, vmLogin.Password, vmLogin.RememberMe, false);
-
-            if(result.Succeeded)
+            
+            if (result.Succeeded)
             {
-                var user = await _userManagerServices.FindByNameAsync(vmLogin.UserName);
-                switch (user.Role)
-                {
-                    case "Admin":
-                        return RedirectToAction("Index", "Admin");
-                    case "Customer":
-                        return RedirectToAction("Index", "Customer");
-                    case "Manager":
-                        return RedirectToAction("Index", "Manager");
-                    default:
-                        break;
-                }
                 if (!string.IsNullOrEmpty(vmLogin.ReturnUrl))
                 {
-                    return RedirectToAction(vmLogin.ReturnUrl);
+                    return Redirect(vmLogin.ReturnUrl);
                 }
+                else if (User.IsInRole("Customer"))
+                {
+                    return RedirectToAction("Index", "Customer");
+                }
+                else if (User.IsInRole("Admin"))
+                {
+                    return RedirectToAction("Index", "Admin");
+                }
+                else if (User.IsInRole("Manager"))
+                {
+                    return RedirectToAction("Index", "Manager");
+                }           
+
             }
             else
             {
@@ -87,11 +89,20 @@ namespace GrandeGift.Controllers
                         UserName = vm.Username,
                         DOB = vm.DOB,
                         Role = vm.Role
+                       
                     };
                     IdentityResult result = await _userManagerServices.CreateAsync(user, vm.Password);
+
                     if(result.Succeeded)
                     {
+
                         await _userManagerServices.AddToRoleAsync(user, vm.Role);
+                        Customer cust = new Customer
+                        {
+                            Gender = "Male",
+                            UserId = user.Id
+                        };
+                        _customerServices.Add(cust);
 
                         return RedirectToAction("Login", "Account");
                     }

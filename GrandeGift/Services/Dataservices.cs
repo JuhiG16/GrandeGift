@@ -30,6 +30,7 @@ namespace GrandeGift.Services
         public void Add(T entity)
         {
             _dbset.Add(entity);
+            _dbContext.SaveChanges();
         }
     }
 }

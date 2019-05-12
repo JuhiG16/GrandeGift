@@ -8,8 +8,8 @@ namespace GrandeGift.Models
     public class Customer
     {
         public int Id { get; set; }
-        public int UserID { get; set; }
-        public User User { get; set; }
+        public int UserId { get; set; }
+        public string Gender { get; set; }
         ICollection<Address> Addresses { get; set; }
     }
 }

@@ -9,6 +9,6 @@ namespace GrandeGift.Models
     {
         public int Id{ get; set; }
         public string Status { get; set; }
-        public int UserID { get; set; }
+        public int UserId { get; set; }
     }
 }
