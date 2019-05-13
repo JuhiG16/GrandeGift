@@ -1,9 +1,13 @@
-﻿
+﻿@*@model CustomerIndexViewModel*@
 @{
     ViewData["Title"] = "Index";
 }
 
-<h2>Welcome Customer</h2>
-@Html.ActionLink("Log out", "LogOut", "Account")
+@*<h2>Welcome @Model.FirstName</h2>*@
+
+<div>@User.Identity.Name</div>
+@Html.ActionLink("View Profile", "Profile", "Customer", new { Username = User.Identity.Name })
+@Html.ActionLink("Update", "UpdateProfile", "Customer", new { Username = User.Identity.Name })
+
 @Html.ActionLink("Test", "Test", "Customer")
 

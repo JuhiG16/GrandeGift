@@ -38,32 +38,54 @@ namespace GrandeGift.Controllers
         public async Task<IActionResult> Login(LoginViewModel vmLogin)
         {
             Microsoft.AspNetCore.Identity.SignInResult result =  await _signInManagerServices.PasswordSignInAsync(vmLogin.UserName, vmLogin.Password, vmLogin.RememberMe, false);
-            
+
             if (result.Succeeded)
             {
-                if (!string.IsNullOrEmpty(vmLogin.ReturnUrl))
+                User user = await _userManagerServices.FindByNameAsync(vmLogin.UserName);
+                switch (user.Role)
                 {
-                    return Redirect(vmLogin.ReturnUrl);
+                    case "Admin":
+                        return RedirectToAction("Index", "Admin");
+                        
+                    case "Customer":
+                        return RedirectToAction("Index", "Customer");
+                    case "Manager":
+                        return RedirectToAction("Index", "Manager");
+                    default:
+                        break;
                 }
-                else if (User.IsInRole("Customer"))
-                {
-                    return RedirectToAction("Index", "Customer");
-                }
-                else if (User.IsInRole("Admin"))
-                {
-                    return RedirectToAction("Index", "Admin");
-                }
-                else if (User.IsInRole("Manager"))
-                {
-                    return RedirectToAction("Index", "Manager");
-                }           
-
             }
             else
             {
                 ModelState.AddModelError("", "Incorrect credentials");
             }
-            return RedirectToAction("Index","Account");
+            //return RedirectToAction("Index", "Account");
+            return View(vmLogin);
+
+           
+            //if (result.Succeeded)
+            //{
+            //    if (!string.IsNullOrEmpty(vmLogin.ReturnUrl))
+            //    {
+            //        return Redirect(vmLogin.ReturnUrl);
+            //    }
+            //    else if (User.IsInRole("Customer"))//IsInRole Working in second time
+            //    {
+            //        return RedirectToAction("Index", "Customer");
+            //    }
+            //    else if (User.IsInRole("Admin"))
+            //    {
+            //        return RedirectToAction("Index", "Admin");
+            //    }
+            //    else if (User.IsInRole("Manager"))
+            //    {
+            //        return RedirectToAction("Index", "Manager");
+            //    }
+
+
+            //}
+           
+
         }
 
         [HttpGet]
@@ -99,6 +121,7 @@ namespace GrandeGift.Controllers
                         await _userManagerServices.AddToRoleAsync(user, vm.Role);
                         Customer cust = new Customer
                         {
+                            CustomerId = user.Id,
                             Gender = "Male",
                             UserId = user.Id
                         };

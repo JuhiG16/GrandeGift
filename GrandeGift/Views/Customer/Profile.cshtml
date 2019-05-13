@@ -1,0 +1,24 @@
+﻿@model CustomerProflieViewModel
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<h2>Profile</h2>
+
+<div>
+    <h4>CustomerProflieViewModel</h4>
+    @*<p>User Name: @Model.UserId</p>*@
+    <p>User Name: @Model.Username</p>
+    <p>First Name: @Model.FirstName</p>
+    <p>Last Name: @Model.LastName</p>
+    <p>Email: @Model.Email</p>
+    <p>Phone: @Model.Phone</p>
+    <p>DOB: @Model.DOB</p>
+    <p>Gender: @Model.Gender</p>
+    <p>Default Address: @Model.Address</p>
+    <p>@Html.ActionLink("View all favourite addresses", "Index", "Address")</p>
+</div>
+<div>
+    @Html.ActionLink("Update", "UpdateProfile","Customer", new { Username = Model.Username }) | <a asp-action="Index">Back to Home</a>
+</div>

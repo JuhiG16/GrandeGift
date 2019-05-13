@@ -9,14 +9,14 @@
 
 </head>
 <body class="container">
-    <div class="row mt-1">
+    <div class="row mt-1 bg-primary">
 
-        <div class="col-1 bg-info mr-1">
+        <div class="col-1 mr-1">
             <img class="img-fluid" src="~/img/logo.png" />
         </div>
 
-        <div class="col border border-primary bg-light">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="col-8 border border-primary bg-primary">
+            <nav class="navbar navbar-expand-lg navbar-light bg-primary">
                 <a class="navbar-brand text-dark" href="#">Grande Gift</a>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
@@ -37,12 +37,35 @@
                     </ul>
                 </div>
             </nav>
+            </div>
+            <div class="col-2">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div>
+                        Welcome @User.Identity.Name
+                    </div>
+                    <div>
+                        @Html.ActionLink("LogOut", "LogOut", "Account",null, new { @class="text-white"})
+                    </div>
+                }
+            </div>
         </div>
-    </div>
+    
     <div>
+        @*<div>
+            @if(User.Identity.IsAuthenticated)
+            {
+                <div>
+                    Welcome @User.Identity.Name
+                </div>
+                <div>
+                    @Html.ActionLink("LogOut", "LogOut", "Account")
+                </div>
+            }
+        </div>*@
         @RenderBody()
     </div>
-    <footer class="bg-primary">
+    <footer class="row bg-primary">
         <p>Footer GiftHempers</p>
     </footer>
 

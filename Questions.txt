@@ -1,0 +1,1 @@
+1) Is Architecture correct. I am using User Id in three tables. In customer table I am refrring the User ID from ASPNet User table.Is it correct?

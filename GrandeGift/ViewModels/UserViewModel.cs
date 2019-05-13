@@ -1,15 +1,14 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GrandeGift.Models;
 
-namespace GrandeGift.Models
+namespace GrandeGift.ViewModels
 {
-    public class User : IdentityUser<int>
+    public class UserViewModel
     {
-       
-       // public int UserId { get; set; }
+        public int UserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime DOB { get; set; }
@@ -17,9 +16,7 @@ namespace GrandeGift.Models
         public string Role { get; set; }
         public bool IsActive { get; set; }
         ICollection<UserRole> UserRoles { get; set; }
-        virtual public Admin Admin { get; set; }
-        virtual public Customer Customer { get; set; }
-
-
+        virtual public AdminIndexViewModel Admin { get; set; }
+        virtual public CustomerIndexViewModel Customer { get; set; }
     }
 }
