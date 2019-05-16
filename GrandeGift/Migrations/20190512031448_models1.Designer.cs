@@ -4,14 +4,16 @@ using GrandeGift.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GrandeGift.Migrations
 {
     [DbContext(typeof(GrandeHamperDbContext))]
-    partial class GrandeHamperDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190512031448_models1")]
+    partial class models1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,12 +43,11 @@ namespace GrandeGift.Migrations
 
                     b.Property<string>("Status");
 
-                    b.Property<int>("UserId");
+                    b.Property<int?>("UserIdId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
+                    b.HasIndex("UserIdId");
 
                     b.ToTable("tblAdmin");
                 });
@@ -66,16 +67,15 @@ namespace GrandeGift.Migrations
 
             modelBuilder.Entity("GrandeGift.Models.Customer", b =>
                 {
-                    b.Property<int>("CustomerId");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Gender");
 
                     b.Property<int>("UserId");
 
-                    b.HasKey("CustomerId");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
+                    b.HasKey("Id");
 
                     b.ToTable("tblCustomer");
                 });
@@ -187,6 +187,8 @@ namespace GrandeGift.Migrations
 
                     b.Property<bool>("TwoFactorEnabled");
 
+                    b.Property<int>("UserId");
+
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
@@ -208,6 +210,8 @@ namespace GrandeGift.Migrations
                     b.Property<int>("UserId");
 
                     b.Property<int>("RoleId");
+
+                    b.Property<int>("Id");
 
                     b.Property<int?>("RoleId1");
 
@@ -296,18 +300,9 @@ namespace GrandeGift.Migrations
 
             modelBuilder.Entity("GrandeGift.Models.Admin", b =>
                 {
-                    b.HasOne("GrandeGift.Models.User")
-                        .WithOne("Admin")
-                        .HasForeignKey("GrandeGift.Models.Admin", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("GrandeGift.Models.Customer", b =>
-                {
-                    b.HasOne("GrandeGift.Models.User", "User")
-                        .WithOne("Customer")
-                        .HasForeignKey("GrandeGift.Models.Customer", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.HasOne("GrandeGift.Models.User", "UserId")
+                        .WithMany()
+                        .HasForeignKey("UserIdId");
                 });
 
             modelBuilder.Entity("GrandeGift.Models.UserRole", b =>

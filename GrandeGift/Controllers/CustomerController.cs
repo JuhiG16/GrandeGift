@@ -74,28 +74,26 @@ namespace GrandeGift.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateProfile(CustomerUpdateProfileViewModel vmProfile)
         {
-            User user = new User
+            User user = await _userManagerServices.FindByNameAsync(vmProfile.Username);
+            user.FirstName = vmProfile.FirstName;
+            user.LastName = vmProfile.LastName;
+            user.Email = vmProfile.Email;
+            user.PhoneNumber = vmProfile.Phone;
+            user.DOB = vmProfile.DOB;
+            user.Address = vmProfile.Address;
+         
+            IdentityResult result = await _userManagerServices.UpdateAsync(user);
+            if (result.Succeeded)
             {
-
-                FirstName = vmProfile.FirstName,
-                LastName = vmProfile.LastName,
-                Email = vmProfile.Email,
-                PhoneNumber = vmProfile.Phone,
-                DOB = vmProfile.DOB,
-                Address = vmProfile.Address
-            };
-            //IdentityResult result = await _userManagerServices.UpdateUserAsync(user);
-            //if(result.Succeeded)
-            //{
-            //    if(!String.IsNullOrEmpty(vmProfile.ReturnUrl))
-            //    {
-            //        return Redirect(vmProfile.ReturnUrl);
-            //    }
-            //    else
-            //    {
-            //        return RedirectToAction("Index");
-            //    }
-            //}
+                if (!String.IsNullOrEmpty(vmProfile.ReturnUrl))
+                {
+                    return Redirect(vmProfile.ReturnUrl);
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
+            }
             return View(vmProfile);
         }
     }

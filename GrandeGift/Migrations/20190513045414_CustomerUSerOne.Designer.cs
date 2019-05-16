@@ -4,14 +4,16 @@ using GrandeGift.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GrandeGift.Migrations
 {
     [DbContext(typeof(GrandeHamperDbContext))]
-    partial class GrandeHamperDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190513045414_CustomerUSerOne")]
+    partial class CustomerUSerOne
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,13 +68,15 @@ namespace GrandeGift.Migrations
 
             modelBuilder.Entity("GrandeGift.Models.Customer", b =>
                 {
-                    b.Property<int>("CustomerId");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Gender");
 
                     b.Property<int>("UserId");
 
-                    b.HasKey("CustomerId");
+                    b.HasKey("Id");
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -208,6 +212,8 @@ namespace GrandeGift.Migrations
                     b.Property<int>("UserId");
 
                     b.Property<int>("RoleId");
+
+                    b.Property<int>("Id");
 
                     b.Property<int?>("RoleId1");
 

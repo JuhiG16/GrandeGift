@@ -12540,11 +12540,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Jw Villawood\\Desktop\\GrandeGift\\GrandeGift\\GrandeGift\\GrandeGift.csproj",
+      "projectUniqueName": "C:\\Users\\Jw Villawood\\Desktop\\GrandeGift\\GrandeGift\\GrandeGift.csproj",
       "projectName": "GrandeGift",
-      "projectPath": "C:\\Users\\Jw Villawood\\Desktop\\GrandeGift\\GrandeGift\\GrandeGift\\GrandeGift.csproj",
+      "projectPath": "C:\\Users\\Jw Villawood\\Desktop\\GrandeGift\\GrandeGift\\GrandeGift.csproj",
       "packagesPath": "C:\\Users\\Jw Villawood\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Jw Villawood\\Desktop\\GrandeGift\\GrandeGift\\GrandeGift\\obj\\",
+      "outputPath": "C:\\Users\\Jw Villawood\\Desktop\\GrandeGift\\GrandeGift\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
