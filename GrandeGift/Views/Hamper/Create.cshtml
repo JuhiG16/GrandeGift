@@ -1,7 +1,18 @@
-﻿
-@{
-    ViewData["Title"] = "Create";
-}
+﻿@model HamperCreateViewModel
 
-<h2>Create</h2>
+<form asp-controller="Hamper" asp-action="Create" method="post">
+    <div class="form-group">
+        <input asp-for="Name" class="form-control" placeholder="Hamper Name" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <textarea asp-for="Details" placeholder="Details" class="form-control"></textarea>
+        <span asp-validation-for="Details" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input asp-for="Price" placeholder="AUD" class="form-control" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    <button class="btn btn-primary">Create</button>
+</form>
 

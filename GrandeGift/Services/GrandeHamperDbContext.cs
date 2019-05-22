@@ -20,8 +20,6 @@ namespace GrandeGift.Services
         public DbSet<Feedback> tblFeedback { get; set; }
         public DbSet<Address> tblAddress { get; set; }
         
-
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
     //            optionsBuilder.UseSqlServer(@"Data Source=NJ;Initial Catalog=GrandeHamperDb;Integrated Security=True");

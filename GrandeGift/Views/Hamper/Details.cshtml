@@ -1,0 +1,27 @@
+﻿@model HamperDetailViewModel
+
+<table class="table table-primary mt-4">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Details</th>
+            <th>Price</th>
+            <th>Category</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr>
+            <td>@Model.Id</td>
+            <td>@Model.Name</td>
+            <td>@Model.Details</td>
+            <td>@Model.Price</td>
+            <td>Category</td>
+        </tr>
+
+    </tbody>
+</table>
+
+@Html.ActionLink("Back to List", "Index", "Hamper")
+

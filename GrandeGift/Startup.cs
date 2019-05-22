@@ -21,6 +21,7 @@ namespace GrandeGift
             //test
             services.AddDbContext<GrandeHamperDbContext>();
             services.AddScoped<IDataServices<Customer>, DataServices<Customer>>();
+            services.AddScoped<IDataServices<Hamper>, DataServices<Hamper>>();
             IdentityBuilder iBuilder = services.AddIdentity<User, Role>(
                 config =>
                 {

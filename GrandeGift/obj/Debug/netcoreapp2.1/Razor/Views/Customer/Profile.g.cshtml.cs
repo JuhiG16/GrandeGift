@@ -161,7 +161,7 @@ Write(Html.ActionLink("Update", "UpdateProfile","Customer", new { Username = Mod
             WriteLiteral(" | ");
             EndContext();
             BeginContext(668, 38, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "5961407b84b14da8b7aff2ed64b42e0f", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "2c440c18502049d48da21f55786c5761", async() => {
                 BeginContext(690, 12, true);
                 WriteLiteral("Back to Home");
                 EndContext();

@@ -1,0 +1,20 @@
+﻿@model HamperUpdateViewModel
+
+<form asp-controller="Hamper" asp-action="Update" method="post">
+    <div class="form-group">
+        <input asp-for="Id" class="form-control" readonly />
+    </div>
+    <div class="form-group">
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name"></span>
+    </div>
+    <div class="form-group">
+        <input asp-for="Details" class="form-control" />
+        <span asp-validation-for="Details"></span>
+    </div>
+    <div class="form-group">
+        <input asp-for="Price" class="form-control" />
+        <span asp-validation-for="Price"></span>
+    </div>
+    <button class="btn btn-primary">Update</button>
+</form>

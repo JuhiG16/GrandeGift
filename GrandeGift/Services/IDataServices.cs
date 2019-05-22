@@ -9,6 +9,7 @@ namespace GrandeGift.Services
     {
         IEnumerable<T> GetAll();
         void Add(T entity);
-        T GetById(int id);
+        T GetById(int? id);
+        void Update(T entity);
     }
 }

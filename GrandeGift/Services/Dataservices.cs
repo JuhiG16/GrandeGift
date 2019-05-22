@@ -22,7 +22,7 @@ namespace GrandeGift.Services
             return _dbset.ToList();
         }
 
-        public T GetById(int id)
+        public T GetById(int? id)
         {
             return _dbset.Find(id);
         }
@@ -30,6 +30,12 @@ namespace GrandeGift.Services
         public void Add(T entity)
         {
             _dbset.Add(entity);
+            _dbContext.SaveChanges();
+        }
+
+        public void Update(T entity)
+        {
+            _dbset.Update(entity);
             _dbContext.SaveChanges();
         }
     }

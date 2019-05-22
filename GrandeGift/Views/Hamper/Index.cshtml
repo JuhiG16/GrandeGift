@@ -1,0 +1,33 @@
+﻿@model IEnumerable<HamperIndexViewModel>
+
+<table class="table table-primary mt-4">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Details</th>
+            <th>Price</th>
+            <th>Category</th>
+            <th>Details</th>
+            <th>Update</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var hamp in Model)
+        {
+        <tr>
+            <td>@hamp.Id</td>
+            <td>@hamp.Name</td>
+            <td>@hamp.Details</td>
+            <td>@hamp.Price</td>
+            <td>Category</td>
+            <td>@Html.ActionLink("View Details", "Details", "Hamper", new { id = hamp.Id })</td>
+            <td>@Html.ActionLink("Update", "Update", "Hamper", new { id = hamp.Id })</td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+@Html.ActionLink("Back to home", "Index", "Admin")
+
