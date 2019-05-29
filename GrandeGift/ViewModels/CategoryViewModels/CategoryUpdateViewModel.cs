@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GrandeGift.Models
+namespace GrandeGift.ViewModels
 {
-    public class Category
+    public class CategoryUpdateViewModel
     {
-        public int Id { get; set; }
+        public int CategoryId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        ICollection<Hamper> Hampers { get; set; }
     }
 }

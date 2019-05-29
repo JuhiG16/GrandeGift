@@ -22,8 +22,8 @@ namespace GrandeGift.Services
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-    //            optionsBuilder.UseSqlServer(@"Data Source=NJ;Initial Catalog=GrandeHamperDb;Integrated Security=True");
             optionsBuilder.UseSqlServer("Data Source=NJ;database=GrandeHamperDb;Integrated Security=True");
+            //optionsBuilder.UseSqlServer("Data Source=PC10-22;Initial Catalog=GrandeHamperDb;Integrated Security=True");          
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {

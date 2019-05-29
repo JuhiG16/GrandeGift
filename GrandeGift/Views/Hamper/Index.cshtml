@@ -8,6 +8,7 @@
             <th>Details</th>
             <th>Price</th>
             <th>Category</th>
+            <th>Status</th>
             <th>Details</th>
             <th>Update</th>
 
@@ -16,18 +17,20 @@
     <tbody>
         @foreach (var hamp in Model)
         {
-        <tr>
-            <td>@hamp.Id</td>
-            <td>@hamp.Name</td>
-            <td>@hamp.Details</td>
-            <td>@hamp.Price</td>
-            <td>Category</td>
-            <td>@Html.ActionLink("View Details", "Details", "Hamper", new { id = hamp.Id })</td>
-            <td>@Html.ActionLink("Update", "Update", "Hamper", new { id = hamp.Id })</td>
-        </tr>
+            <tr>
+                <td>@hamp.Id</td>
+                <td>@hamp.Name</td>
+                <td>@hamp.Details</td>
+                <td>@hamp.Price</td>
+                <td>@hamp.CategoryName</td>
+                <td>@hamp.Status</td>
+                <td>@Html.ActionLink("View Details", "Details", "Hamper", new { id = hamp.Id })</td>
+                <td>@Html.ActionLink("Update", "Update", "Hamper", new { id = hamp.Id })</td>
+            </tr>
         }
     </tbody>
 </table>
 
-@Html.ActionLink("Back to home", "Index", "Admin")
+@Html.ActionLink("Back to home", "Index", "Admin")<br/>
+@Html.ActionLink("Add New Hampers", "Create", "Hamper")
 

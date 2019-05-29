@@ -7,26 +7,43 @@ using GrandeGift.Services;
 using GrandeGift.ViewModels;
 using GrandeGift.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GrandeGift.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class HamperController : Controller
     {
         private readonly IDataServices<Hamper> _hamperServices;
-        public HamperController(IDataServices<Hamper> hamperServices)
+        private readonly IDataServices<Category> _categoryServices;
+        private readonly IHostingEnvironment _hostingEnvironmentServices;
+
+        public HamperController(IDataServices<Hamper> hamperServices, 
+                                IDataServices<Category> categoryServices, 
+                                IHostingEnvironment hostingEnvironmentServices)
         {
             this._hamperServices = hamperServices;
+            this._categoryServices = categoryServices;
+            this._hostingEnvironmentServices = hostingEnvironmentServices;
         }
+        
         public IActionResult Index()
         {
-            IEnumerable<Hamper> hampers = _hamperServices.GetAll();
-            List<HamperIndexViewModel> vmHampers = hampers.Select(
+            List<Hamper> hampers = _hamperServices.GetAll("Category").ToList();
+
+            //var hampers = _hamperServices.QueryGetAll(h => h.IsContinue == true, "Category");
+                List<HamperIndexViewModel> vmHampers = hampers.Select(
                 hamp => new HamperIndexViewModel()
                 {
                     Id = hamp.Id,
                     Name = hamp.Name,
                     Details = hamp.Details,
-                    Price = hamp.Price
+                    Price = hamp.Price,
+                    CategoryName = hamp.Category.Name,
+                    Status = hamp.Status
+
                 }).ToList();
             return View(vmHampers);
         }
@@ -34,6 +51,7 @@ namespace GrandeGift.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            PopulateAllCatgories();
             return View();
         }
         [HttpPost]
@@ -41,17 +59,29 @@ namespace GrandeGift.Controllers
         {
             try
             {
-
                 if (ModelState.IsValid)
                 {
+                    string uniqueFileName = null;
+                    if(vmHamper.Photo != null)
+                    {
+                      string uploadFolder =  Path.Combine(_hostingEnvironmentServices.WebRootPath + "\\img");
+                      uniqueFileName =  Guid.NewGuid().ToString() + "_" + vmHamper.Photo.FileName;
+                      string FilePath = Path.Combine(uploadFolder, uniqueFileName);
+                      vmHamper.Photo.CopyTo(new FileStream(FilePath, FileMode.Create));
+                    }
                     Hamper hamp = new Hamper()
                     {
                         Name = vmHamper.Name,
                         Details = vmHamper.Details,
-                        Price = vmHamper.Price
+                        Price = vmHamper.Price,
+                        CategoryId = vmHamper.CategoryId,
+                        Status = vmHamper.Status,
+                        PhotoPath = uniqueFileName
                     };
                     _hamperServices.Add(hamp);
-                    return RedirectToAction("Index", "Hamper");
+
+                    //return RedirectToAction("Details", "Hamper");
+                    return RedirectToAction("Details", new { id = hamp.Id });
                 }
             }
             catch(DbUpdateException)
@@ -63,15 +93,22 @@ namespace GrandeGift.Controllers
             return View();
         }
 
+        private void PopulateAllCatgories()
+        {
+            ViewBag.Cats = _categoryServices.GetAll();
+            
+        }
         [HttpGet]
 
+        [AllowAnonymous]
         public IActionResult Details(int? id)
         {
             if(id == null)
             {
                 return NotFound();
             }
-            Hamper hamp = _hamperServices.GetById(id);
+            //Hamper hamp = _hamperServices.GetById(id);
+            Hamper hamp = _hamperServices.QueryGetSingle(c => c.Id == id, "Category");
             if(hamp == null)
             {
                 return NotFound();
@@ -80,7 +117,11 @@ namespace GrandeGift.Controllers
                 Id = hamp.Id,
                 Name = hamp.Name,
                 Details = hamp.Details,
-                Price = hamp.Price
+                Price = hamp.Price,
+                CategoryName = hamp.Category.Name,
+                Status = hamp.Status,
+                PhotoPath = hamp.PhotoPath
+
             };
             return View(vmHamp);
         }
@@ -92,13 +133,17 @@ namespace GrandeGift.Controllers
             {
                 return NotFound();
             }
-            Hamper hamp = _hamperServices.GetById(id);
+            Hamper hamp = _hamperServices.QueryGetSingle(h => h.Id == id, "Category");
+            PopulateAllCatgories();
             HamperUpdateViewModel vmHamp = new HamperUpdateViewModel
             {
                 Id = hamp.Id,
                 Name = hamp.Name,
                 Details = hamp.Details,
-                Price = hamp.Price
+                Price = hamp.Price,
+                CategoryId = hamp.Category.Id,
+                Status = hamp.Status,
+                PhotoPath = hamp.PhotoPath
             };
 
             
@@ -106,13 +151,36 @@ namespace GrandeGift.Controllers
         }
 
         public IActionResult Update(HamperUpdateViewModel vmHamper)
-        {
+        {            
+            string uniqePhoto = null;
+            if(vmHamper.Photo != null)
+            {
+               string uploadFolder =  Path.Combine(_hostingEnvironmentServices.WebRootPath + "/img/");             
+               uniqePhoto =  Guid.NewGuid().ToString() +"_" + vmHamper.Photo.FileName;
+
+               string FilePath = Path.Combine(uploadFolder, uniqePhoto);
+               FileStream f = new FileStream(FilePath, FileMode.Create);
+
+               vmHamper.Photo.CopyTo(f);
+                if (vmHamper.PhotoPath != null)
+                {
+                    //delete existing file 
+                    string fileToDelete = Path.Combine(uploadFolder, vmHamper.PhotoPath);
+                    System.IO.File.Delete(fileToDelete);
+                }
+            }
+            
             Hamper hamp = _hamperServices.GetById(vmHamper.Id);
             hamp.Name = vmHamper.Name;
             hamp.Details = vmHamper.Details;
             hamp.Price = vmHamper.Price;
+            hamp.CategoryId = vmHamper.CategoryId;
+            hamp.Status = vmHamper.Status;
+            hamp.PhotoPath = uniqePhoto;
+
             _hamperServices.Update(hamp);
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", new { id = hamp.Id});
         }
+       
     }
 }

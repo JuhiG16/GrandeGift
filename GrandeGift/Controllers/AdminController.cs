@@ -12,6 +12,7 @@ namespace GrandeGift.Controllers
 {
     public class AdminController : Controller
     {
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             return View();

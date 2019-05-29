@@ -1,0 +1,25 @@
+﻿@model IEnumerable<CategoryIndexViewModel>
+<table class="table table-primary">
+    <thead>
+        <tr>
+            <th>Category Id</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Update</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var cat in Model)
+        {
+            <tr>
+                <td>@cat.CategoryId</td>
+                <td>@cat.Name</td>
+                <td>@cat.Description</td>
+                <td>@Html.ActionLink("Details","Details", "Category", new { id = cat.CategoryId })</td>
+                <td>@Html.ActionLink("Update", "Update", "Category", new { id = cat.CategoryId })</td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+@Html.ActionLink("Back To Home", "Index", "Admin")

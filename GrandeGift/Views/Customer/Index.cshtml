@@ -1,13 +1,29 @@
-﻿@*@model CustomerIndexViewModel*@
+﻿@model IEnumerable<HamperIndexViewModel>
+
 @{
     ViewData["Title"] = "Index";
 }
 
-@*<h2>Welcome @Model.FirstName</h2>*@
 
-<div>@User.Identity.Name</div>
-@Html.ActionLink("View Profile", "Profile", "Customer", new { Username = User.Identity.Name })
-@Html.ActionLink("Update", "UpdateProfile", "Customer", new { Username = User.Identity.Name })
-
-@Html.ActionLink("Test", "Test", "Customer")
+    <div>@User.Identity.Name</div>
+    @Html.ActionLink("View Profile", "Profile", "Customer", new { Username = User.Identity.Name })
+    @Html.ActionLink("Update", "UpdateProfile", "Customer", new { Username = User.Identity.Name })
+    @Html.ActionLink("Test", "Test", "Customer")
+   
+<div class="row bg-info">
+    @foreach (var hamp in Model)
+    {
+        var photoPath = "/img/" + (hamp.PhotoPath ?? "NoImage.jpg");
+        <div class="col-3 mt-3 mb-3">
+            <div class="card" style="width: 16rem;">
+                <img src=@photoPath class="card-img-top">
+                <div class="card-body">
+                    @Html.ActionLink("Details", "Details", "Hamper", new { id = hamp.Id })
+                    <p class="card-text">Price:  @hamp.Price $ </p>
+                    <a href="#" class="btn btn-primary">Add</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
 

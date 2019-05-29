@@ -2,3 +2,6 @@
 
 2) Entity framewoerk related properties and query
 3) async and await
+4) where to declare enums of the project
+5)There are 
+6) Jquery not workng

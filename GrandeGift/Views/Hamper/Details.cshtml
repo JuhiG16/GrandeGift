@@ -1,5 +1,7 @@
 ﻿@model HamperDetailViewModel
-
+@{
+    var photoPath = "/img/" + (Model.PhotoPath ?? "NoImage.jpg");
+}
 <table class="table table-primary mt-4">
     <thead>
         <tr>
@@ -8,6 +10,9 @@
             <th>Details</th>
             <th>Price</th>
             <th>Category</th>
+            <th>Status</th>
+            <th>Update</th>
+
         </tr>
     </thead>
     <tbody>
@@ -17,11 +22,25 @@
             <td>@Model.Name</td>
             <td>@Model.Details</td>
             <td>@Model.Price</td>
-            <td>Category</td>
+            <td>@Model.CategoryName</td>
+            <td>@Model.Status</td>
+            <td>@Html.ActionLink("Update", "Update", "Hamper", new { id = Model.Id })</td>
+
         </tr>
 
     </tbody>
 </table>
 
-@Html.ActionLink("Back to List", "Index", "Hamper")
+<div class="row">
+    <img src="@photoPath" />
+</div>
+@if (User.IsInRole("Admin"))
+{
+    @Html.ActionLink("Back to List", "Index", "Hamper")
+}
+else
+{
+    @Html.ActionLink("Back to Home", "Index", "Customer")
+}
+
 

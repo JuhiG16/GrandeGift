@@ -3,8 +3,11 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>welcome Admin</h2>
-@Html.ActionLink("Log out", "LogOut", "Account")
-@Html.ActionLink("View Hampers", "Index", "Hamper")
-@Html.ActionLink("Add Hampers", "Create", "Hamper")
+<h2>Welcome Admin</h2>
+@*@Html.ActionLink("Log out", "LogOut", "Account")*@
+@Html.ActionLink("View Hampers", "Index", "Hamper")<br/>
+@Html.ActionLink("Add Hampers", "Create", "Hamper")<br/>
+@Html.ActionLink("View All Categories", "Index", "Category")<br/>
+@Html.ActionLink("Add Category", "Create", "Category")
+
 

@@ -8,22 +8,44 @@ using GrandeGift.Services;
 using GrandeGift.ViewModels;
 using GrandeGift.Models;
 using Microsoft.AspNetCore.Identity;
+using GrandeGift.Utility;
 
 namespace GrandeGift.Controllers
 {
     public class CustomerController : Controller
     {
-        private readonly IDataServices<Customer> _customerServices;
         private readonly UserManager<User> _userManagerServices;
-        public CustomerController(IDataServices<Customer> dataServices, UserManager<User> userManagerServices)
+        private readonly IDataServices<Customer> _customerServices;
+        private readonly IDataServices<Hamper> _hamperServices;
+        
+
+        public CustomerController(IDataServices<Customer> dataServices, 
+                                  UserManager<User> userManagerServices,
+                                  IDataServices<Hamper> hamperServices)
         {
             _customerServices = dataServices;
             _userManagerServices = userManagerServices;
-
+            _hamperServices = hamperServices;
         }
+
+        [Authorize(Roles = "Customer")]
         public IActionResult Index()
         {
-           return View();
+           List<Hamper> hampers =  _hamperServices.QueryGetAll(h => (h.Status == Status.Available ||
+                                                                     h.Status == Status.OutOfStock), 
+                                                                     "Category").ToList();
+            List<HamperIndexViewModel> vmHampers = hampers.Select(h => new HamperIndexViewModel
+            {
+                Id = h.Id,
+                Name = h.Name,
+                Details = h.Details,
+                Price = h.Price,
+                Status = h.Status,
+                CategoryName = h.Category.Name,
+                Category = h.Category,
+                PhotoPath = h.PhotoPath
+            }).ToList();
+           return View(vmHampers);
         }
 
         [Authorize(Roles = "Customer")]

@@ -22,6 +22,7 @@ namespace GrandeGift
             services.AddDbContext<GrandeHamperDbContext>();
             services.AddScoped<IDataServices<Customer>, DataServices<Customer>>();
             services.AddScoped<IDataServices<Hamper>, DataServices<Hamper>>();
+            services.AddScoped<IDataServices<Category>, DataServices<Category>>();
             IdentityBuilder iBuilder = services.AddIdentity<User, Role>(
                 config =>
                 {
@@ -52,7 +53,7 @@ namespace GrandeGift
             app.UseStaticFiles();
             app.UseSession();
             app.UseAuthentication();
-            //CreateRoles(serviceProvider).Wait();
+            CreateRoles(serviceProvider).Wait();
             app.UseMvc(route =>
             {
             route.MapRoute("default",
