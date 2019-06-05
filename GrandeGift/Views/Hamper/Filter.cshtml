@@ -1,0 +1,53 @@
+﻿@model HamperIndexViewModel
+@*<form asp-controller="Hamper" asp-action="Filter" method="get">
+        <div class="form-group">
+            <select asp-for="SearchModel.searchCatId" asp-items="@(new SelectList(ViewBag.Cats, "Id", "Name"))" class="form-control">
+                <option value="Search By Category" selected disabled>Search By Category</option>
+            </select>
+            <input type="text" asp-for="SearchModel.MinPrice" class="form-control" />
+            <input type="text" asp-for="SearchModel.MaxPrice" class="form-control" />
+            <input class="btn btn-primary" type="submit" value="Search" />
+        </div>
+    </form>*@
+<form asp-controller="Hamper" asp-action="Filter" method="get" class="row mb-3">
+
+    <div class="form-group col-3">
+        <label asp-for="SearchModel.searchCatId">Select Category: </label>
+        <select asp-for="SearchModel.searchCatId" asp-items="@(new SelectList(ViewBag.Cats, "Id", "Name"))" class="form-control">
+            <option value="Search By Category" selected disabled>Search By Category</option>
+        </select>
+    </div>
+    <div class="form-group col-2">
+        <label asp-for="SearchModel.MinPrice">Sort by Min Price:</label>
+        <input type="text" asp-for="SearchModel.MinPrice" class="form-control" />
+
+    </div>
+    <div class="form-group col-2">
+        <label asp-for="SearchModel.MaxPrice">Sort by Max Price:</label>
+        <input type="text" asp-for="SearchModel.MaxPrice" class="form-control" />
+    </div>
+    <div class="form-group col-2">
+        <br />
+        <input class="btn btn-primary form-control" type="submit" value="Search" />
+    </div>
+</form>
+@Html.ActionLink("Home", "Index", "Hamper")<br />
+<div class="row bg-info">
+    @foreach (var hamp in Model.Hampers)
+    {
+        var photoPath = "/img/" + (hamp.PhotoPath ?? "NoImage.jpg");
+        <div class="col-3 mt-3 mb-3">
+            <div class="card" style="width: 16rem;">
+                <img src=@photoPath class="card-img-top">
+                <div class="card-body row">
+                    <div class="col-6">
+                        <p class="card-title mb-0">@hamp.Name</p>
+                        <p class="card-text mb-0">Price:  @hamp.Price $ </p>
+                        @Html.ActionLink("Details", "Details", "Hamper", new { id = hamp.Id })
+                    </div>
+                    <a href="@Url.Action("AddToCart", "Hamper", new {hampId = hamp.Id})" class="col-3 offset-2 mt-2 pb-0 btn btn-primary" style="width:50px;height:40px">Add</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

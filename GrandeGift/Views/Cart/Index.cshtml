@@ -1,0 +1,46 @@
+﻿@model CartIndexViewModel
+
+<p>@ViewBag.Message</p>
+
+@if (Model.CartItems.Count() > 0)
+{
+    <table class="table table-info">
+        <thead>
+            <tr>
+
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.CartItems)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Price</td>
+                    <td>1</td>
+                    <td>@item.Price</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr style="background-color:dodgerblue;color:white">
+                <td colspan="3"><strong>Gross Total</strong></td>
+                <td>@Model.GrossTotal</td>
+            </tr>
+            <tr style="background-color:dodgerblue;color:white">
+                <td colspan="3"><strong>Total Items</strong></td>
+                <td>@Model.TotalItems</td>
+            </tr>
+        </tfoot>
+    </table>
+}
+<partial name="_Address.cshtml" />
+@Html.ActionLink("Select/Manage address", "Index", "Address")
+<div>
+    @Html.ActionLink("Continue Shopping", "Index", "Hamper", null, new { @class = "btn btn-info" })
+    @Html.ActionLink("Order", "Create", "Order", null, new { @class = "btn btn-success" })
+</div>
