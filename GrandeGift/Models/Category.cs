@@ -10,6 +10,6 @@ namespace GrandeGift.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        ICollection<Hamper> Hampers { get; set; }
+        public ICollection<Hamper> Hampers { get; set; }
     }
 }

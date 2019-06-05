@@ -19,10 +19,12 @@ namespace GrandeGift.Services
         public DbSet<Category> tblCategory { get; set; }
         public DbSet<Feedback> tblFeedback { get; set; }
         public DbSet<Address> tblAddress { get; set; }
-        
+        public DbSet<Order> tblOrder { get; set; }
+        public DbSet<OrderDetails> tblOrderDetails { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=NJ;database=GrandeHamperDb;Integrated Security=True");
+            optionsBuilder.UseSqlServer("Data Source=NJ;database=GrandeHampersDb;Integrated Security=True");
             //optionsBuilder.UseSqlServer("Data Source=PC10-22;Initial Catalog=GrandeHamperDb;Integrated Security=True");          
         }
         protected override void OnModelCreating(ModelBuilder builder)

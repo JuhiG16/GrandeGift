@@ -1,36 +1,171 @@
-﻿@model IEnumerable<HamperIndexViewModel>
+﻿@model HamperIndexViewModel
+@{
+    ViewData["Title"] = "Index";
+}
 
-<table class="table table-primary mt-4">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Details</th>
-            <th>Price</th>
-            <th>Category</th>
-            <th>Status</th>
-            <th>Details</th>
-            <th>Update</th>
+<div class="row">
+    <div class="col-3 offset-9">
+        <div>
+            <a href="@Url.Action("Index", "Cart")" class="col-3 offset-2 mt-2 pb-0 btn btn-success"  style="width:120px;height:40px">
+                Cart
+            </a>
+        </div>
+    </div>
+</div>
 
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var hamp in Model)
-        {
+<form asp-controller="Hamper" asp-action="Filter" method="get" class="row mb-3">
+
+    <div class="form-group col-3 offset-1">
+        <label asp-for="SearchModel.searchCatId">Select Category: </label>
+        <select asp-for="SearchModel.searchCatId" asp-items="@(new SelectList(ViewBag.Cats, "Id", "Name"))" class="form-control">
+            <option value="Search By Category" selected disabled>Select</option>
+        </select>
+    </div>
+    <div class="form-group col-2">
+        <label asp-for="SearchModel.MinPrice">Sort by Min Price:</label>
+        <input type="text" asp-for="SearchModel.MinPrice" class="form-control" />
+
+    </div>
+    <div class="form-group col-2">
+        <label asp-for="SearchModel.MaxPrice">Sort by Max Price:</label>
+        <input type="text" asp-for="SearchModel.MaxPrice" class="form-control" />
+    </div>
+    <div class="form-group col-2">
+        <label>Search</label>
+        <input class="btn btn-primary form-control" type="submit" value="Search" />
+    </div>
+</form>
+
+
+@if (User.IsInRole("Admin"))
+{
+    <table class="table table-primary mt-4">
+        <thead>
             <tr>
-                <td>@hamp.Id</td>
-                <td>@hamp.Name</td>
-                <td>@hamp.Details</td>
-                <td>@hamp.Price</td>
-                <td>@hamp.CategoryName</td>
-                <td>@hamp.Status</td>
-                <td>@Html.ActionLink("View Details", "Details", "Hamper", new { id = hamp.Id })</td>
-                <td>@Html.ActionLink("Update", "Update", "Hamper", new { id = hamp.Id })</td>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Details</th>
+                <th>Price</th>
+                <th>Category</th>
+                <th>Status</th>
+                <th>Details</th>
+                <th>Update</th>
+
             </tr>
+        </thead>
+        <tbody>
+            @foreach (var hamp in Model.Hampers)
+            {
+                <tr>
+                    <td>@hamp.Id</td>
+                    <td>@hamp.Name</td>
+                    <td>@hamp.Details</td>
+                    <td>@hamp.Price</td>
+                    <td>@hamp.Status</td>
+                    <td>@Html.ActionLink("View Details", "Details", "Hamper", new { id = hamp.Id })</td>
+                    <td>@Html.ActionLink("Update", "Update", "Hamper", new { id = hamp.Id })</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @Html.ActionLink("Back to home", "Index", "Admin")<br />
+    @Html.ActionLink("Add New Hampers", "Create", "Hamper")
+}
+
+else
+{
+    <div class="row bg-info">
+        @foreach (var hamp in Model.Hampers)
+        {
+            var photoPath = "/img/" + (hamp.PhotoPath ?? "NoImage.jpg");
+            <div class="col-3 mt-3 mb-3">
+                <div class="card" style="width: 16rem;">
+                    <img src=@photoPath class="card-img-top">
+                    <div class="card-body row">
+                        <div class="col-6">
+                            <p class="card-title mb-0">@hamp.Name</p>
+                            <p class="card-text mb-0">Price:  @hamp.Price $ </p>
+                            @Html.ActionLink("Details", "Details", "Hamper", new { id = hamp.Id })
+                        </div>
+                        <a href="@Url.Action("AddToCart", "Cart", new {hampId = hamp.Id})" class="col-3 offset-2 mt-2 pb-0 btn btn-primary" style="width:50px;height:40px">Add</a>
+                    </div>
+                </div>
+            </div>
         }
-    </tbody>
-</table>
+    </div>
+}
 
-@Html.ActionLink("Back to home", "Index", "Admin")<br/>
-@Html.ActionLink("Add New Hampers", "Create", "Hamper")
 
+
+
+@*@model IEnumerable<HamperIndexViewModel>
+    @{
+        ViewData["Title"] = "Index";
+    }
+
+    <form asp-controller="Hamper" asp-action="Filter" method="get">
+        <div class="form-group">
+            <input class="form-control" type="text" name="searchString"/>
+            <select asp-items="@(new SelectList(ViewBag.Cats, "Name", "Name"))"></select>
+            <input type="submit" value="Search"/>
+        </div>
+
+    </form>
+
+    @if (User.IsInRole("Admin"))
+    {
+        <table class="table table-primary mt-4">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Details</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                    <th>Details</th>
+                    <th>Update</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var hamp in Model)
+                {
+                    <tr>
+                        <td>@hamp.Id</td>
+                        <td>@hamp.Name</td>
+                        <td>@hamp.Details</td>
+                        <td>@hamp.Price</td>
+                        <td>@hamp.CategoryName</td>
+                        <td>@hamp.Status</td>
+                        <td>@Html.ActionLink("View Details", "Details", "Hamper", new { id = hamp.Id })</td>
+                        <td>@Html.ActionLink("Update", "Update", "Hamper", new { id = hamp.Id })</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @Html.ActionLink("Back to home", "Index", "Admin")<br />
+        @Html.ActionLink("Add New Hampers", "Create", "Hamper")
+    }
+
+    else
+    {
+        <div class="row bg-info">
+            @foreach (var hamp in Model)
+            {
+                var photoPath = "/img/" + (hamp.PhotoPath ?? "NoImage.jpg");
+                <div class="col-3 mt-3 mb-3">
+                    <div class="card" style="width: 16rem;">
+                        <img src=@photoPath class="card-img-top">
+                        <div class="card-body">
+                            @Html.ActionLink("Details", "Details", "Hamper", new { id = hamp.Id })
+                            <p class="card-text">Price:  @hamp.Price $ </p>
+                            <a href="#" class="btn btn-primary">Add</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }*@

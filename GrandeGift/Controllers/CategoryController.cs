@@ -35,7 +35,6 @@ namespace GrandeGift.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-
             return View();
         }
 
@@ -71,7 +70,7 @@ namespace GrandeGift.Controllers
             {
                 return NotFound();
             }
-            Category cat = _categoryServices.GetById(id);
+            Category cat = _categoryServices.GetSingle(c => c.Id == id);
             CategoryUpdateViewModel vmCat = new CategoryUpdateViewModel
             {
                 CategoryId = cat.Id,
@@ -114,12 +113,14 @@ namespace GrandeGift.Controllers
                 return NotFound();
             }
 
-            Category cat = _categoryServices.GetById(id);
+            Category cat = _categoryServices.GetSingle(c => c.Id == id, "Hampers");
+            
             CategoryDetailViewModel vmCat = new CategoryDetailViewModel
             {
                 CategoryId = cat.Id,
                 Name = cat.Name,
-                Description = cat.Description
+                Description = cat.Description,
+                Hampers = cat.Hampers
             };
 
             return View(vmCat);

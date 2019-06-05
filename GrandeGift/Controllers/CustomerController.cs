@@ -31,21 +31,22 @@ namespace GrandeGift.Controllers
         [Authorize(Roles = "Customer")]
         public IActionResult Index()
         {
-           List<Hamper> hampers =  _hamperServices.QueryGetAll(h => (h.Status == Status.Available ||
-                                                                     h.Status == Status.OutOfStock), 
-                                                                     "Category").ToList();
-            List<HamperIndexViewModel> vmHampers = hampers.Select(h => new HamperIndexViewModel
-            {
-                Id = h.Id,
-                Name = h.Name,
-                Details = h.Details,
-                Price = h.Price,
-                Status = h.Status,
-                CategoryName = h.Category.Name,
-                Category = h.Category,
-                PhotoPath = h.PhotoPath
-            }).ToList();
-           return View(vmHampers);
+            return View();
+           //List<Hamper> hampers =  _hamperServices.Query(h => (h.Status == Status.Available ||
+           //                                                          h.Status == Status.OutOfStock), 
+           //                                                          "Category").ToList();
+           // List<HamperIndexViewModel> vmHampers = hampers.Select(h => new HamperIndexViewModel
+           // {
+           //     Id = h.Id,
+           //     Name = h.Name,
+           //     Details = h.Details,
+           //     Price = h.Price,
+           //     Status = h.Status,
+           //     CategoryName = h.Category.Name,
+           //     Category = h.Category,
+           //     PhotoPath = h.PhotoPath
+           // }).ToList();
+           //return View(vmHampers);
         }
 
         [Authorize(Roles = "Customer")]
@@ -59,7 +60,7 @@ namespace GrandeGift.Controllers
         {
            
             User user = await _userManagerServices.FindByNameAsync(Username);
-            Customer cust = _customerServices.GetById(user.Id);
+            Customer cust = _customerServices.GetSingle( c => c.CustomerId ==   user.Id);
             CustomerProflieViewModel vmProfile = new CustomerProflieViewModel
             {
                 Username = user.UserName,
@@ -78,7 +79,7 @@ namespace GrandeGift.Controllers
         public async Task<IActionResult> UpdateProfile(string Username, string ReturnUrl = null)
         {
             User user = await _userManagerServices.FindByNameAsync(Username);
-            Customer cust = _customerServices.GetById(user.Id);
+            Customer cust = _customerServices.GetSingle(c => c.CustomerId == user.Id);
             CustomerUpdateProfileViewModel vmProfile = new CustomerUpdateProfileViewModel
             {
                 Username = user.UserName,

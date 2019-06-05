@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GrandeGift.Models;
-using GrandeGift.Utility;
-using Microsoft.AspNetCore.Http;
+﻿using GrandeGift.Utility;
 
 namespace GrandeGift.ViewModels
 {

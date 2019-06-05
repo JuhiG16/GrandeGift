@@ -18,28 +18,29 @@ namespace GrandeGift.Services
             _dbset = _dbContext.Set<T>();
         }
 
-        public IQueryable<T> GetAll()
+        public IEnumerable<T> GetAll()
         {
-            return _dbset;
+            return _dbset.ToList();
         }
 
-        public IQueryable<T> GetAll(string navProp)
+        public IEnumerable<T> Query(Expression<Func<T, bool>> predecate, string navProp)
         {
-            return _dbset.Include(navProp)   ;
-        }
-        public T QueryGetSingle(Expression<Func<T, bool>> predecate, string navProp)
-        {
-            return _dbset.Include(navProp).Single(predecate);
-        }
-        public T GetById(int? id)
-        {
-            return _dbset.Find(id);
+            return _dbset.Include(navProp).Where(predecate).ToList();
         }
 
-        public void Add(T entity)
+        public IEnumerable<T> Query(Expression<Func<T, bool>> predecate)
         {
-            _dbset.Add(entity);
-            _dbContext.SaveChanges();
+            return _dbset.Where(predecate).ToList();
+        }
+
+        public T GetSingle(Expression<Func<T, bool>> predecate)
+        {
+            return _dbset.FirstOrDefault(predecate);
+        }
+
+        public T GetSingle(Expression<Func<T, bool>> predecate, string navProp)
+        {
+            return _dbset.Include(navProp).FirstOrDefault(predecate);
         }
 
         public void Update(T entity)
@@ -48,9 +49,21 @@ namespace GrandeGift.Services
             _dbContext.SaveChanges();
         }
 
-        public IQueryable<T> QueryGetAll(Expression<Func<T, bool>> predecate, string navProp)
+        public void Add(T entity)
         {
-            return _dbset.Where(predecate).Include(navProp);
+            _dbset.Add(entity);
+            _dbContext.SaveChanges();
         }
+
+        public void AddRange(IEnumerable<T> entities)
+        {
+            _dbset.AddRange(entities);
+            _dbContext.SaveChanges();
+        }
+         public IEnumerable<T> GetAll(string navProp)
+        {
+            return _dbset.Include(navProp).ToList();
+        }
+
     }
 }

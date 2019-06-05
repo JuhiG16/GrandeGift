@@ -1,1 +1,14 @@
-﻿
+﻿@model AddressCreateViewModel
+
+<form asp-controller="Address" asp-action="Create" method="post">
+    <div class="form-group">
+        <input asp-for="UserId"class="form-control" readonly />
+    </div>
+    <div class="form-group">
+        <textarea asp-for="Details" placeholder="Full address" class="form-control"></textarea>
+        <span asp-validation-for="Details"></span>
+    </div>
+    <div>
+        <input type="submit" value="Create" class="btn btn-primary"/>
+    </div>
+</form>

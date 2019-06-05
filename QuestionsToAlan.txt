@@ -5,3 +5,7 @@
 4) where to declare enums of the project
 5)There are 
 6) Jquery not workng
+
+
+### design for filter.html and index.html
+## is SearchViewModel correct thing to do

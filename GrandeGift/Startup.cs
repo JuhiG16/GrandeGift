@@ -23,6 +23,10 @@ namespace GrandeGift
             services.AddScoped<IDataServices<Customer>, DataServices<Customer>>();
             services.AddScoped<IDataServices<Hamper>, DataServices<Hamper>>();
             services.AddScoped<IDataServices<Category>, DataServices<Category>>();
+            services.AddScoped<IDataServices<Order>, DataServices<Order>>();
+            services.AddScoped<IDataServices<OrderDetails>, DataServices<OrderDetails>>();
+            services.AddScoped<IDataServices<Address>, DataServices<Address>>();
+
             IdentityBuilder iBuilder = services.AddIdentity<User, Role>(
                 config =>
                 {
@@ -39,8 +43,24 @@ namespace GrandeGift
             iBuilder.AddRoleValidator<RoleValidator<Role>>();
             iBuilder.AddRoleManager<RoleManager<Role>>();
             iBuilder.AddSignInManager<SignInManager<User>>();
+
+
+            //services.Configure<CookiePolicyOptions>(options =>
+            //{
+            //    options.CheckConsentNeeded = context => true;
+            //    options.MinimumSameSitePolicy = SameSiteMode.None;
+            //});
+
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(20);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
             services.AddMvc();
-            services.AddSession();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,6 +72,7 @@ namespace GrandeGift
             }
             app.UseStaticFiles();
             app.UseSession();
+            //app.UseHttpContextItemsMiddleware();
             app.UseAuthentication();
             CreateRoles(serviceProvider).Wait();
             app.UseMvc(route =>

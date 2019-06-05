@@ -8,14 +8,19 @@ namespace GrandeGift.Services
 {
     public interface IDataServices<T>
     {
-        IQueryable<T> QueryGetAll(Expression<Func<T, bool>> predecate, string navProp);
-        IQueryable<T> GetAll(string navProp);
-        IQueryable<T> GetAll();
-        T QueryGetSingle(Expression<Func<T, bool>> predecate, string navProp);
+        IEnumerable<T> GetAll();
+        IEnumerable<T> Query(Expression<Func<T, bool>> predecate, string navProp);
+        IEnumerable<T> Query(Expression<Func<T, bool>> predecate);
+
+        IEnumerable<T> GetAll(string navProp);
+       
+
+        T GetSingle(Expression<Func<T, bool>> predecate);
+        T GetSingle(Expression<Func<T, bool>> predecate, string navProp);
+       
         void Add(T entity);
-        T GetById(int? id);
-        void Update(T entity);
-        
-        
+        void AddRange(IEnumerable<T> entities);
+
+        void Update(T entity);       
     }
 }

@@ -13,9 +13,12 @@ IsInRole Working in second time.
 Get customer detail by id or name
 # provide Gender as enum and list
 #connection string
+# improve search logic
+# duplicate code in index.html and filter.html
 #discontinue existing hampers
 # upload picture
 
+#next task Hampers
 
 ##Customer
 #sErach hampers by category
@@ -23,7 +26,4 @@ Get customer detail by id or name
 minimum and maximum price, so that I can easily find all hampers
 that match with my search criteria
 # Search hampers by category
-
-#next task Hampers
-old "51a943b0-fe61-4e2b-8d13-2d168040717a_37a5ff8b-f6c0-4e01-9b0e-48ffa455bf85_da5dc2b3-fe93-4907-aba3-1d1ed9b4472c_logo2.png"
-new      d5b18a94-da30-4d6d-a0f7-5659f4dbd8da_logo2.png"
+#next task- Delivery addresses, order
